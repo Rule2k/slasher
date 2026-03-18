@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://xeafvb3w5lvv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vyk5b"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_u1xfj"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nha0i"]
+radius = 0.4
+height = 1.2
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_q24mn"]
+radius = 0.4
+height = 1.2
+
+[node name="Main" type="Node3D" unique_id=279406562]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2042356929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2138209953]
+transform = Transform3D(1, 0, 0, 0, 0.98162717, -0.190809, 0, 0.190809, 0.98162717, 0, 3, 4)
+current = true
+fov = 100.0
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=993618197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=2058468681]
+shape = SubResource("BoxShape3D_vyk5b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1139481814]
+mesh = SubResource("BoxMesh_u1xfj")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1819268303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1036870141]
+shape = SubResource("CapsuleShape3D_nha0i")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=376476991]
+mesh = SubResource("CapsuleMesh_q24mn")
