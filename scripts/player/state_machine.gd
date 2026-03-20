@@ -4,6 +4,9 @@ enum State { IDLE, WINDUP, ACTIVE, RECOVERY }
 
 var current_state: State = State.IDLE
 var state_timer: float = 0.0
+var has_hit: bool = false
+
+@onready var attack_raycast: RayCast3D
 
 # Tap/hold tracking
 var hold_timer: float = 0.0
@@ -21,6 +24,7 @@ var _player: CharacterBody3D
 
 func _ready() -> void:
 	_player = get_parent()
+	attack_raycast = _player.get_node("Head/AttackRaycast")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_state != State.IDLE:
@@ -72,19 +76,31 @@ func _process_windup(delta: float) -> void:
 func _enter_active() -> void:
 	current_state = State.ACTIVE
 	state_timer = current_attack.active_duration
+	has_hit = false
+	attack_raycast.target_position.z = -current_attack.range_distance
+	attack_raycast.enabled = true
+	attack_raycast.force_raycast_update()
 	var type_str = "HEAVY" if is_heavy else "LIGHT"
 	print(">> ACTIVE (%s) — dégâts: %s" % [type_str, current_attack.damage])
 
 func _process_active(delta: float) -> void:
+	if not has_hit and attack_raycast.is_colliding():
+		var target = attack_raycast.get_collider()
+		if target.has_method("take_damage"):
+			target.take_damage(current_attack.damage)
+			has_hit = true
 	state_timer -= delta
 	if state_timer <= 0.0:
 		_enter_recovery()
+
 
 # --- RECOVERY ---
 func _enter_recovery() -> void:
 	current_state = State.RECOVERY
 	state_timer = current_attack.recovery_duration
+	attack_raycast.enabled = false
 	print(">> RECOVERY (%.2fs)" % current_attack.recovery_duration)
+
 
 func _process_recovery(delta: float) -> void:
 	state_timer -= delta
