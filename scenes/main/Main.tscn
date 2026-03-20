@@ -7,6 +7,12 @@
 [ext_resource type="Resource" uid="uid://d3jbyx0huggfo" path="res://data/attacks/slash_right_light.tres" id="5_1rhdn"]
 [ext_resource type="Resource" uid="uid://cavn35ssnypln" path="res://data/attacks/slash_right_heavy.tres" id="6_sjxhf"]
 [ext_resource type="Script" uid="uid://b4xt1ndogo861" path="res://scripts/enemy/dummy.gd" id="7_sjxhf"]
+[ext_resource type="Resource" path="res://data/attacks/slash_left_light.tres" id="8_sll"]
+[ext_resource type="Resource" path="res://data/attacks/slash_left_heavy.tres" id="9_slh"]
+[ext_resource type="Resource" path="res://data/attacks/overhead_light.tres" id="10_ohl"]
+[ext_resource type="Resource" path="res://data/attacks/overhead_heavy.tres" id="11_ohh"]
+[ext_resource type="Resource" path="res://data/attacks/stab_light.tres" id="12_stl"]
+[ext_resource type="Resource" path="res://data/attacks/stab_heavy.tres" id="13_sth"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vyk5b"]
 size = Vector3(20, 1, 20)
@@ -70,8 +76,14 @@ script = ExtResource("3_dc040")
 
 [node name="StateMachine" type="Node3D" parent="Player" unique_id=961158668]
 script = ExtResource("4_1rhdn")
+slash_left_light = ExtResource("8_sll")
+slash_left_heavy = ExtResource("9_slh")
 slash_right_light = ExtResource("5_1rhdn")
 slash_right_heavy = ExtResource("6_sjxhf")
+overhead_light = ExtResource("10_ohl")
+overhead_heavy = ExtResource("11_ohh")
+stab_light = ExtResource("12_stl")
+stab_heavy = ExtResource("13_sth")
 
 [node name="Dummy" type="StaticBody3D" parent="." unique_id=699258273]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)

@@ -4,34 +4,54 @@ enum State { IDLE, WINDUP, ACTIVE, RECOVERY }
 
 var current_state: State = State.IDLE
 var state_timer: float = 0.0
-var has_hit: bool = false
-
-@onready var attack_raycast: RayCast3D
 
 # Tap/hold tracking
 var hold_timer: float = 0.0
-var heavy_threshold: float = 1
+var heavy_threshold: float = 1.0
 var is_heavy: bool = false
+var current_action: String = ""  # l'input action en cours (pour tracker le hold)
 
 # L'attaque en cours
 var current_attack: AttackData = null
+var has_hit: bool = false
 
-# Les données d'attaque chargées
+# Données d'attaque par direction : [light, heavy]
+@export var slash_left_light: AttackData
+@export var slash_left_heavy: AttackData
 @export var slash_right_light: AttackData
 @export var slash_right_heavy: AttackData
+@export var overhead_light: AttackData
+@export var overhead_heavy: AttackData
+@export var stab_light: AttackData
+@export var stab_heavy: AttackData
+
+# Mapping input → paire [light, heavy]
+var _attack_map: Dictionary = {}
 
 var _player: CharacterBody3D
+@onready var attack_raycast: RayCast3D
 
 func _ready() -> void:
 	_player = get_parent()
 	attack_raycast = _player.get_node("Head/AttackRaycast")
 
+	# Construire le mapping après que les exports sont chargés
+	_attack_map = {
+		"attack_left": [slash_left_light, slash_left_heavy],
+		"attack_right": [slash_right_light, slash_right_heavy],
+		"attack_overhead": [overhead_light, overhead_heavy],
+		"attack_stab": [stab_light, stab_heavy],
+	}
+
 func _unhandled_input(event: InputEvent) -> void:
 	if current_state != State.IDLE:
 		return
-	
-	if event.is_action_pressed("attack_right"):
-		_enter_windup()
+
+	for action in _attack_map.keys():
+		if event.is_action_pressed(action):
+			current_action = action
+			_enter_windup()
+			return
 
 func _physics_process(delta: float) -> void:
 	match current_state:
@@ -45,32 +65,27 @@ func _physics_process(delta: float) -> void:
 # --- WINDUP ---
 func _enter_windup() -> void:
 	current_state = State.WINDUP
-	# Light par défaut, immédiatement
-	current_attack = slash_right_light
+	var pair = _attack_map[current_action]
+	current_attack = pair[0]  # light par défaut
 	is_heavy = false
 	hold_timer = 0.0
 	state_timer = current_attack.windup_duration
-	print(">> WINDUP (light par défaut)")
+	print(">> WINDUP %s (light par défaut)" % current_action)
 
 func _process_windup(delta: float) -> void:
 	state_timer -= delta
 	hold_timer += delta
-	
-	# Si maintenu au-delà du seuil → bascule en heavy
-	if not is_heavy and Input.is_action_pressed("attack_right") and hold_timer >= heavy_threshold:
-		is_heavy = true
-		current_attack = slash_right_heavy
-		state_timer = 0.0  # heavy prêt, passer en active immédiatement
-		print("   -> bascule HEAVY (maintenu %.3fs)" % hold_timer)
-	
-	# Ne quitter le windup que si :
-	# - le timer est fini ET la touche est relâchée (light confirmé)
-	# - le timer est fini ET heavy est verrouillé
-	# - la touche est relâchée (light confirmé, même si timer pas fini on attend le timer)
-	if state_timer <= 0.0:
-		if is_heavy or not Input.is_action_pressed("attack_right"):
-			_enter_active()
 
+	if not is_heavy and Input.is_action_pressed(current_action) and hold_timer >= heavy_threshold:
+		is_heavy = true
+		var pair = _attack_map[current_action]
+		current_attack = pair[1]  # heavy
+		state_timer = 0.0
+		print("   -> bascule HEAVY (maintenu %.3fs)" % hold_timer)
+
+	if state_timer <= 0.0:
+		if is_heavy or not Input.is_action_pressed(current_action):
+			_enter_active()
 
 # --- ACTIVE ---
 func _enter_active() -> void:
@@ -93,14 +108,12 @@ func _process_active(delta: float) -> void:
 	if state_timer <= 0.0:
 		_enter_recovery()
 
-
 # --- RECOVERY ---
 func _enter_recovery() -> void:
 	current_state = State.RECOVERY
 	state_timer = current_attack.recovery_duration
 	attack_raycast.enabled = false
 	print(">> RECOVERY (%.2fs)" % current_attack.recovery_duration)
-
 
 func _process_recovery(delta: float) -> void:
 	state_timer -= delta
@@ -111,6 +124,7 @@ func _process_recovery(delta: float) -> void:
 func _enter_idle() -> void:
 	current_state = State.IDLE
 	current_attack = null
+	current_action = ""
 	is_heavy = false
 	hold_timer = 0.0
 	print(">> IDLE")
