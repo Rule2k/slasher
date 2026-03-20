@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AttackData" format=3 uid="uid://cavn35ssnypln"]
+
+[ext_resource type="Script" uid="uid://dr7q5i6i5jar5" path="res://scripts/combat/attack_data.gd" id="1_1a2ox"]
+
+[resource]
+script = ExtResource("1_1a2ox")
+is_heavy = true
+recovery_duration = 0.45
+damage = 35.0
+metadata/_custom_type_script = "uid://dr7q5i6i5jar5"
