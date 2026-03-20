@@ -7,7 +7,7 @@ enum Direction { LEFT, RIGHT, OVERHEAD, STAB }
 @export var is_heavy: bool = false
 
 @export_group("Timings (seconds)")
-@export var startup_duration: float = 0.2
+@export var windup_duration: float = 0.2
 @export var active_duration: float = 0.15
 @export var recovery_duration: float = 0.3
 

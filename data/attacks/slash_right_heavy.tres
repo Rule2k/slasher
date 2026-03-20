@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_1a2ox")
 is_heavy = true
+windup_duration = 1.0
 recovery_duration = 0.45
 damage = 35.0
 metadata/_custom_type_script = "uid://dr7q5i6i5jar5"
