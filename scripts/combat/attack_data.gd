@@ -19,3 +19,7 @@ func get_animation_name() -> String:
 	var dir = Direction.keys()[direction].to_lower()
 	var weight = "heavy" if is_heavy else "light"
 	return "%s_%s" % [dir, weight]
+
+func get_windup_animation_name() -> String:
+	var dir = Direction.keys()[direction].to_lower()
+	return "%s_windup" % dir

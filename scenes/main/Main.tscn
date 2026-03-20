@@ -47,9 +47,9 @@ tracks/0/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_jsdfw"]
-resource_name = "slash_left_light"
-length = 0.65
+[sub_resource type="Animation" id="Animation_lh"]
+resource_name = "left_heavy"
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -57,16 +57,49 @@ tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.2, 0.38, 0.65),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.15, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 1.2217305, 0), Vector3(0, 1.2217305, 0), Vector3(0, -1.3962634, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 1.2217305, 0), Vector3(0, -1.7453293, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ll"]
+resource_name = "left_light"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.2217305, 0), Vector3(0, -1.3962634, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jsdfw"]
+resource_name = "left_windup"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1.2217305, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tck0d"]
 _data = {
 &"RESET": SubResource("Animation_2tpxt"),
-&"left_light": SubResource("Animation_jsdfw")
+&"left_heavy": SubResource("Animation_lh"),
+&"left_light": SubResource("Animation_ll"),
+&"left_windup": SubResource("Animation_jsdfw")
 }
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u1xfj"]

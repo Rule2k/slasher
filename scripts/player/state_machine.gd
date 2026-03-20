@@ -73,24 +73,20 @@ func _enter_windup() -> void:
 	current_attack = pair[0]  # light par défaut
 	is_heavy = false
 	hold_timer = 0.0
-	state_timer = current_attack.windup_duration
-	print(">> WINDUP %s (light par défaut)" % current_action)
-	anim_player.play(current_attack.get_animation_name())
+	print(">> WINDUP %s" % current_action)
+	anim_player.play(current_attack.get_windup_animation_name())
 
 func _process_windup(delta: float) -> void:
-	state_timer -= delta
 	hold_timer += delta
 
-	if not is_heavy and Input.is_action_pressed(current_action) and hold_timer >= heavy_threshold:
-		is_heavy = true
-		var pair = _attack_map[current_action]
-		current_attack = pair[1]  # heavy
-		state_timer = 0.0
-		print("   -> bascule HEAVY (maintenu %.3fs)" % hold_timer)
-
-	if state_timer <= 0.0:
-		if is_heavy or not Input.is_action_pressed(current_action):
-			_enter_active()
+	# Le swing part au relâchement du bouton
+	if not Input.is_action_pressed(current_action):
+		if hold_timer >= heavy_threshold:
+			is_heavy = true
+			var pair = _attack_map[current_action]
+			current_attack = pair[1]  # heavy
+			print("   -> HEAVY (maintenu %.3fs)" % hold_timer)
+		_enter_active()
 
 # --- ACTIVE ---
 func _enter_active() -> void:
@@ -98,6 +94,7 @@ func _enter_active() -> void:
 	state_timer = current_attack.active_duration
 	has_hit = false
 	hit_box.monitoring = true
+	anim_player.play(current_attack.get_animation_name())
 	var type_str = "HEAVY" if is_heavy else "LIGHT"
 	print(">> ACTIVE (%s) — dégâts: %s" % [type_str, current_attack.damage])
 
