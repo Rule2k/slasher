@@ -27,10 +27,10 @@ radius = 0.4
 radius = 0.4
 
 [sub_resource type="BoxMesh" id="BoxMesh_weapon"]
-size = Vector3(0.05, 0.05, 0.8)
+size = Vector3(0.08, 0.04, 1.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hitbox"]
-size = Vector3(0.1, 0.1, 0.8)
+size = Vector3(0.12, 0.08, 1.2)
 
 [sub_resource type="Animation" id="Animation_2tpxt"]
 length = 0.001
@@ -57,10 +57,10 @@ tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05291771, 0.2, 0.35, 0.65),
+"times": PackedFloat32Array(0, 0.05, 0.2, 0.38, 0.65),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0.5235988, 0), Vector3(0, 0.5235988, 0), Vector3(0, -0.6981317, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 1.2217305, 0), Vector3(0, 1.2217305, 0), Vector3(0, -1.3962634, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tck0d"]
