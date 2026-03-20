@@ -29,11 +29,13 @@ var has_hit: bool = false
 var _attack_map: Dictionary = {}
 
 var _player: CharacterBody3D
-@onready var attack_raycast: RayCast3D
+@onready var hit_box: Area3D
 
 func _ready() -> void:
 	_player = get_parent()
-	attack_raycast = _player.get_node("Head/AttackRaycast")
+	hit_box = _player.get_node("Head/WeaponPivot/Weapon/HitBox")
+	hit_box.body_entered.connect(_on_hit_box_body_entered)
+	hit_box.monitoring = false
 
 	# Construire le mapping après que les exports sont chargés
 	_attack_map = {
@@ -92,27 +94,29 @@ func _enter_active() -> void:
 	current_state = State.ACTIVE
 	state_timer = current_attack.active_duration
 	has_hit = false
-	attack_raycast.target_position.z = -current_attack.range_distance
-	attack_raycast.enabled = true
-	attack_raycast.force_raycast_update()
+	hit_box.monitoring = true
 	var type_str = "HEAVY" if is_heavy else "LIGHT"
 	print(">> ACTIVE (%s) — dégâts: %s" % [type_str, current_attack.damage])
 
 func _process_active(delta: float) -> void:
-	if not has_hit and attack_raycast.is_colliding():
-		var target = attack_raycast.get_collider()
-		if target.has_method("take_damage"):
-			target.take_damage(current_attack.damage)
-			has_hit = true
 	state_timer -= delta
 	if state_timer <= 0.0:
 		_enter_recovery()
+
+func _on_hit_box_body_entered(body: Node3D) -> void:
+	if has_hit:
+		return
+	if body == _player:
+		return
+	if body.has_method("take_damage"):
+		body.take_damage(current_attack.damage)
+		has_hit = true
 
 # --- RECOVERY ---
 func _enter_recovery() -> void:
 	current_state = State.RECOVERY
 	state_timer = current_attack.recovery_duration
-	attack_raycast.enabled = false
+	hit_box.monitoring = false
 	print(">> RECOVERY (%.2fs)" % current_attack.recovery_duration)
 
 func _process_recovery(delta: float) -> void:
