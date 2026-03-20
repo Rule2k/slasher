@@ -353,5 +353,26 @@ shape = SubResource("CapsuleShape3D_u1xfj")
 mesh = SubResource("CapsuleMesh_nha0i")
 surface_material_override/0 = SubResource("StandardMaterial3D_u1xfj")
 
+[node name="Head" type="Node3D" parent="Dummy" unique_id=1507654610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="WeaponPivot" type="Node3D" parent="Dummy/Head" unique_id=1224888301]
+
+[node name="Weapon" type="Node3D" parent="Dummy/Head/WeaponPivot" unique_id=479189932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.2, -0.4)
+
+[node name="WeaponMesh" type="MeshInstance3D" parent="Dummy/Head/WeaponPivot/Weapon" unique_id=1122967414]
+mesh = SubResource("BoxMesh_weapon")
+surface_material_override/0 = SubResource("StandardMaterial3D_jsdfw")
+
+[node name="HitBox" type="Area3D" parent="Dummy/Head/WeaponPivot/Weapon" unique_id=688693426]
+monitoring = false
+
+[node name="HitBoxShape" type="CollisionShape3D" parent="Dummy/Head/WeaponPivot/Weapon/HitBox" unique_id=653418531]
+shape = SubResource("BoxShape3D_hitbox")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Dummy/Head/WeaponPivot" unique_id=1040078929]
+libraries/ = SubResource("AnimationLibrary_tck0d")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=580060490]
 environment = SubResource("Environment_jsdfw")

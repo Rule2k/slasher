@@ -18,15 +18,16 @@ func _physics_process(delta: float) -> void:
 	# Se déplacer vers le joueur
 	if player:
 		var direction = (player.global_position - global_position)
-		direction.y = 0  # ignorer la hauteur
+		direction.y = 0
 		var distance = direction.length()
 		
-		if distance > 2.0:  # s'arrêter à 2m du joueur
+		# Toujours regarder le joueur
+		look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z))
+		
+		if distance > 2.0:
 			direction = direction.normalized()
 			velocity.x = direction.x * move_speed
 			velocity.z = direction.z * move_speed
-			# Regarder vers le joueur
-			look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z))
 		else:
 			velocity.x = 0.0
 			velocity.z = 0.0
