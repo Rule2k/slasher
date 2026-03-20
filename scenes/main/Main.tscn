@@ -6,12 +6,12 @@
 [ext_resource type="Script" uid="uid://c3qkmjvdkfgj2" path="res://scripts/player/state_machine.gd" id="4_1rhdn"]
 [ext_resource type="Resource" uid="uid://d3jbyx0huggfo" path="res://data/attacks/slash_right_light.tres" id="5_1rhdn"]
 [ext_resource type="Resource" uid="uid://cavn35ssnypln" path="res://data/attacks/slash_right_heavy.tres" id="6_sjxhf"]
-[ext_resource type="Script" uid="uid://b4xt1ndogo861" path="res://scripts/enemy/dummy.gd" id="7_sjxhf"]
 [ext_resource type="Resource" uid="uid://jnaipym4oiss" path="res://data/attacks/slash_left_light.tres" id="8_sll"]
 [ext_resource type="Resource" uid="uid://bpl5r46pgsj4t" path="res://data/attacks/slash_left_heavy.tres" id="9_slh"]
 [ext_resource type="Resource" path="res://data/attacks/overhead_light.tres" id="10_ohl"]
 [ext_resource type="Resource" path="res://data/attacks/overhead_heavy.tres" id="11_ohh"]
 [ext_resource type="Resource" path="res://data/attacks/stab_light.tres" id="12_stl"]
+[ext_resource type="Script" uid="uid://b8dxfrd7o4dw2" path="res://scripts/enemy/enemy.gd" id="13_2tpxt"]
 [ext_resource type="Resource" path="res://data/attacks/stab_heavy.tres" id="13_sth"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vyk5b"]
@@ -290,7 +290,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.037448466, 0.3617488, 0.03
 mesh = SubResource("BoxMesh_u1xfj")
 surface_material_override/0 = SubResource("StandardMaterial3D_2tpxt")
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=1819268303]
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1819268303 groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_u1xfj")
 
@@ -342,9 +342,9 @@ overhead_heavy = ExtResource("11_ohh")
 stab_light = ExtResource("12_stl")
 stab_heavy = ExtResource("13_sth")
 
-[node name="Dummy" type="StaticBody3D" parent="." unique_id=699258273]
+[node name="Dummy" type="CharacterBody3D" parent="." unique_id=1051547812]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
-script = ExtResource("7_sjxhf")
+script = ExtResource("13_2tpxt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy" unique_id=1342384139]
 shape = SubResource("CapsuleShape3D_u1xfj")
