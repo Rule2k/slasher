@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AttackData" format=3]
+[gd_resource type="Resource" script_class="AttackData" format=3 uid="uid://jnaipym4oiss"]
 
 [ext_resource type="Script" uid="uid://dr7q5i6i5jar5" path="res://scripts/combat/attack_data.gd" id="1_ohxps"]
 

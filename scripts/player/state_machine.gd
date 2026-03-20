@@ -30,12 +30,14 @@ var _attack_map: Dictionary = {}
 
 var _player: CharacterBody3D
 @onready var hit_box: Area3D
+@onready var anim_player: AnimationPlayer
 
 func _ready() -> void:
 	_player = get_parent()
 	hit_box = _player.get_node("Head/WeaponPivot/Weapon/HitBox")
 	hit_box.body_entered.connect(_on_hit_box_body_entered)
 	hit_box.monitoring = false
+	anim_player = _player.get_node("Head/WeaponPivot/AnimationPlayer")
 
 	# Construire le mapping après que les exports sont chargés
 	_attack_map = {
@@ -73,6 +75,7 @@ func _enter_windup() -> void:
 	hold_timer = 0.0
 	state_timer = current_attack.windup_duration
 	print(">> WINDUP %s (light par défaut)" % current_action)
+	anim_player.play(current_attack.get_animation_name())
 
 func _process_windup(delta: float) -> void:
 	state_timer -= delta

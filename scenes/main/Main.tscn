@@ -7,8 +7,8 @@
 [ext_resource type="Resource" uid="uid://d3jbyx0huggfo" path="res://data/attacks/slash_right_light.tres" id="5_1rhdn"]
 [ext_resource type="Resource" uid="uid://cavn35ssnypln" path="res://data/attacks/slash_right_heavy.tres" id="6_sjxhf"]
 [ext_resource type="Script" uid="uid://b4xt1ndogo861" path="res://scripts/enemy/dummy.gd" id="7_sjxhf"]
-[ext_resource type="Resource" path="res://data/attacks/slash_left_light.tres" id="8_sll"]
-[ext_resource type="Resource" path="res://data/attacks/slash_left_heavy.tres" id="9_slh"]
+[ext_resource type="Resource" uid="uid://jnaipym4oiss" path="res://data/attacks/slash_left_light.tres" id="8_sll"]
+[ext_resource type="Resource" uid="uid://bpl5r46pgsj4t" path="res://data/attacks/slash_left_heavy.tres" id="9_slh"]
 [ext_resource type="Resource" path="res://data/attacks/overhead_light.tres" id="10_ohl"]
 [ext_resource type="Resource" path="res://data/attacks/overhead_heavy.tres" id="11_ohh"]
 [ext_resource type="Resource" path="res://data/attacks/stab_light.tres" id="12_stl"]
@@ -32,6 +32,43 @@ size = Vector3(0.05, 0.05, 0.8)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hitbox"]
 size = Vector3(0.1, 0.1, 0.8)
 
+[sub_resource type="Animation" id="Animation_2tpxt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jsdfw"]
+resource_name = "slash_left_light"
+length = 0.65
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05291771, 0.2, 0.35, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.5235988, 0), Vector3(0, 0.5235988, 0), Vector3(0, -0.6981317, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tck0d"]
+_data = {
+&"RESET": SubResource("Animation_2tpxt"),
+&"left_light": SubResource("Animation_jsdfw")
+}
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u1xfj"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nha0i"]
@@ -51,6 +88,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_vyk5b")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1139481814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.037448466, 0.3617488, 0.03692782)
 mesh = SubResource("BoxMesh_u1xfj")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1819268303]
@@ -83,6 +121,9 @@ monitoring = false
 
 [node name="HitBoxShape" type="CollisionShape3D" parent="Player/Head/WeaponPivot/Weapon/HitBox" unique_id=111111005]
 shape = SubResource("BoxShape3D_hitbox")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Head/WeaponPivot" unique_id=1840091530]
+libraries/ = SubResource("AnimationLibrary_tck0d")
 
 [node name="CameraController" type="Node3D" parent="Player" unique_id=2060059889]
 script = ExtResource("2_gyg6b")

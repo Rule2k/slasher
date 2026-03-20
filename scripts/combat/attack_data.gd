@@ -14,3 +14,8 @@ enum Direction { LEFT, RIGHT, OVERHEAD, STAB }
 @export_group("Properties")
 @export var damage: float = 20.0
 @export var range_distance: float = 2.0
+
+func get_animation_name() -> String:
+	var dir = Direction.keys()[direction].to_lower()
+	var weight = "heavy" if is_heavy else "light"
+	return "%s_%s" % [dir, weight]
