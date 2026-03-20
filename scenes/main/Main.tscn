@@ -20,6 +20,9 @@ size = Vector3(20, 1, 20)
 [sub_resource type="BoxMesh" id="BoxMesh_u1xfj"]
 size = Vector3(20, 1, 20)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2tpxt"]
+albedo_color = Color(0.40683696, 0.22814617, 0.10009668, 1)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nha0i"]
 radius = 0.4
 
@@ -28,6 +31,8 @@ radius = 0.4
 
 [sub_resource type="BoxMesh" id="BoxMesh_weapon"]
 size = Vector3(0.08, 0.04, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jsdfw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hitbox"]
 size = Vector3(0.12, 0.08, 1.2)
@@ -262,10 +267,17 @@ _data = {
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u1xfj"]
 albedo_color = Color(1, 0, 0, 1)
 
+[sub_resource type="Environment" id="Environment_jsdfw"]
+background_mode = 1
+background_color = Color(0.6270878, 0.8193708, 0.9462498, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+ambient_light_energy = 0.5
+
 [node name="Main" type="Node3D" unique_id=279406562]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2042356929]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 10, 0)
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=993618197]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -276,6 +288,7 @@ shape = SubResource("BoxShape3D_vyk5b")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1139481814]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.037448466, 0.3617488, 0.03692782)
 mesh = SubResource("BoxMesh_u1xfj")
+surface_material_override/0 = SubResource("StandardMaterial3D_2tpxt")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1819268303]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -301,6 +314,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.2, -0.4)
 
 [node name="WeaponMesh" type="MeshInstance3D" parent="Player/Head/WeaponPivot/Weapon" unique_id=111111003]
 mesh = SubResource("BoxMesh_weapon")
+surface_material_override/0 = SubResource("StandardMaterial3D_jsdfw")
 
 [node name="HitBox" type="Area3D" parent="Player/Head/WeaponPivot/Weapon" unique_id=111111004]
 monitoring = false
@@ -338,3 +352,6 @@ shape = SubResource("CapsuleShape3D_u1xfj")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Dummy" unique_id=1030083241]
 mesh = SubResource("CapsuleMesh_nha0i")
 surface_material_override/0 = SubResource("StandardMaterial3D_u1xfj")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=580060490]
+environment = SubResource("Environment_jsdfw")
