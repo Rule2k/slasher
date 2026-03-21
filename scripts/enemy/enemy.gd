@@ -4,7 +4,7 @@ var health: float = 100.0
 var move_speed: float = 2.0
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var player: Node3D = null
+var player: CharacterBody3D = null
 
 func _ready() -> void:
 	# Trouver le joueur dans la scène
@@ -33,6 +33,17 @@ func _physics_process(delta: float) -> void:
 			velocity.z = 0.0
 	
 	move_and_slide()
+	# Attaque automatique toutes les 3 secondes
+	if player:
+		var distance = (player.global_position - global_position).length()
+		if distance <= 2.5 and combat.is_idle():
+			attack_timer -= delta
+			if attack_timer <= 0.0:
+				combat.start_attack()
+				attack_timer = 3.0
+	
+var attack_timer: float = 3.0
+@onready var combat: Node = $StateMachine
 
 func take_damage(amount: float) -> void:
 	health -= amount

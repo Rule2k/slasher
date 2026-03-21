@@ -13,6 +13,7 @@
 [ext_resource type="Resource" path="res://data/attacks/stab_light.tres" id="12_stl"]
 [ext_resource type="Script" uid="uid://b8dxfrd7o4dw2" path="res://scripts/enemy/enemy.gd" id="13_2tpxt"]
 [ext_resource type="Resource" path="res://data/attacks/stab_heavy.tres" id="13_sth"]
+[ext_resource type="Script" uid="uid://bllnorfhv43ox" path="res://scripts/enemy/state_machine.gd" id="14_jsdfw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vyk5b"]
 size = Vector3(20, 1, 20)
@@ -325,13 +326,13 @@ shape = SubResource("BoxShape3D_hitbox")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Head/WeaponPivot" unique_id=1840091530]
 libraries/ = SubResource("AnimationLibrary_tck0d")
 
-[node name="CameraController" type="Node3D" parent="Player" unique_id=2060059889]
+[node name="CameraController" type="Node" parent="Player" unique_id=2060059889]
 script = ExtResource("2_gyg6b")
 
-[node name="MovementController" type="Node3D" parent="Player" unique_id=112564017]
+[node name="MovementController" type="Node" parent="Player" unique_id=112564017]
 script = ExtResource("3_dc040")
 
-[node name="StateMachine" type="Node3D" parent="Player" unique_id=961158668]
+[node name="StateMachine" type="Node" parent="Player" unique_id=1121764743]
 script = ExtResource("4_1rhdn")
 slash_left_light = ExtResource("8_sll")
 slash_left_heavy = ExtResource("9_slh")
@@ -373,6 +374,13 @@ shape = SubResource("BoxShape3D_hitbox")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Dummy/Head/WeaponPivot" unique_id=1040078929]
 libraries/ = SubResource("AnimationLibrary_tck0d")
+
+[node name="StateMachine" type="Node" parent="Dummy" unique_id=78608787]
+script = ExtResource("14_jsdfw")
+slash_left_light = ExtResource("8_sll")
+slash_right_light = ExtResource("5_1rhdn")
+overhead_light = ExtResource("10_ohl")
+stab_light = ExtResource("12_stl")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=580060490]
 environment = SubResource("Environment_jsdfw")
